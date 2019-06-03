@@ -3,6 +3,7 @@ import Hero from './Hero';
 import Banner from './Banner';
 import {Link} from 'react-router-dom';
 import Services from './Services';
+import FeaturedRoom from './FeaturedRoom';
 
 export default function Home(){
   return(
@@ -15,8 +16,8 @@ export default function Home(){
         <Link to="/Rooms" className="btn-primary">Our Rooms</Link>
       </Banner>
     </Hero>
-
     <Services/>
+    <FeaturedRoom/>
     </>
   )
 }
