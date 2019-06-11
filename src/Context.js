@@ -2,15 +2,21 @@ import React, {Component} from 'react';
 import items from './data';
 const RoomContext=React.createContext();
 
-
-
-
 class RoomProvider extends Component{
   state={
     rooms: [],
     sortedRooms: [],
     FeaturedRoom: [],
-    loading: true
+    loading: true,
+    type: 'all',
+    capiacity: 1,
+    price: 0,
+    minPrice: 0,
+    maxPrice: 0,
+    minSize: 0,
+    maxSize: 0,
+    breakfast: false,
+    pets: false,
   }
 
   getData=()=>{
@@ -30,25 +36,60 @@ class RoomProvider extends Component{
     return tempItems;
   }
 
+  getRoom=(slug)=>{
+    let tempRooms=[...this.state.rooms];
+    const room= tempRooms.find(room=>room.slug===slug);
+    console.log(room);
+    return room;
+  }
+
+  handleChange=(event)=>{
+
+    const target=event.target;
+    const value=event.type==='checkbox'?target.checked:target.value;
+    const name= event.target.name;
+
+    this.setState({
+      [name]: value
+    }, this.filterRooms)
+    // this.setState({
+    //   [name]: value,
+    //   type: value
+    // })
+  }
+
+  filterRooms=()=>{
+    console.log('hello')
+  }
+
   componentDidMount(){
     let rooms=this.formatData(items);
-    // console.log(rooms)
-    
-    let featuredRooms=rooms.filter(room=>room.featured);
 
+
+    let featuredRooms=rooms.filter(room=>room.featured);
+    let maxPrice=Math.max(...rooms.map(item=>{
+      return item.price
+    }));
+
+    let maxSize=Math.max(...rooms.map(item=>{
+      return item.size
+    }));
+    console.log(maxSize);
     this.setState({
       rooms: rooms,
       featuredRooms: featuredRooms,
       sortedRooms: rooms,
-      loading: false
+      loading: false,
+      maxSize: maxSize,
+      maxPrice: maxPrice
     })
-    // console.log(featuredRooms)
+
   }
 
   render(){
     return(
       //{{...this.state}} lets me pass the whole object
-    <RoomContext.Provider value={{...this.state}}>
+    <RoomContext.Provider value={{...this.state, getRoom:this.getRoom, handleChange:this.handleChange}}>
       {this.props.children}
     </RoomContext.Provider>
   )
@@ -56,5 +97,18 @@ class RoomProvider extends Component{
 }
 
 const RoomConsumer=RoomContext.Consumer;
+
+///this is optional, this will create a higher order component
+export function withRoomConsumer(Component){
+  return function ConsumerWrapper(props){
+    return <RoomConsumer>
+        {value=><Component {...props} context={value}/>}
+      </RoomConsumer>
+  }
+}
+
+
+
+//////
 
 export {RoomProvider,RoomConsumer, RoomContext};

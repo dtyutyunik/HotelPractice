@@ -14,22 +14,21 @@ import {RoomProvider} from './Context';
 function App(props) {
   return (
     <RoomProvider>
-    <Router>
-      <Navbar/>
-        <Switch>
-          <Route exact path="/Home"
-            component={Home}
-            />
-          <Route exact path="/Rooms"
-            component={Rooms}
-            />
-          <Route exact path="/SingleRoom/:room"
-            component={SingleRoom}
-            />
-          <Route component={Error}/>
-        </Switch>
-
-    </Router>
+      <Router>
+        <Navbar/>
+          <Switch>
+            <Route exact path="/Home"
+              component={Home}
+              />
+            <Route exact path="/Rooms"
+              component={Rooms}
+              />
+            <Route exact path="/singleRoom/:slug"
+              component={SingleRoom}
+              />
+            <Route component={Error}/>
+          </Switch>
+      </Router>
   </RoomProvider>
 
   );

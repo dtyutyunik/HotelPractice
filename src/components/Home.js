@@ -5,6 +5,8 @@ import {Link} from 'react-router-dom';
 import Services from './Services';
 import FeaturedRoom from './FeaturedRoom';
 
+
+
 export default function Home(){
   return(
     /* <> lets you put react components adjacent to each other without having to wrap it in a div*/
@@ -18,6 +20,7 @@ export default function Home(){
     </Hero>
     <Services/>
     <FeaturedRoom/>
+      
     </>
   )
 }
